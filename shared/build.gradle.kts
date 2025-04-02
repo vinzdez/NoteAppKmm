@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
+    alias(libs.plugins.delightSql)
 }
 
 kotlin {
@@ -15,7 +16,7 @@ kotlin {
             }
         }
     }
-    
+
     listOf(
         iosX64(),
         iosArm64(),
@@ -29,10 +30,25 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            //put your multiplatform dependencies here
+            implementation(libs.sql.delight)
+            implementation(libs.kotlinx.datetime)
+        }
+        androidMain.dependencies {
+            implementation(libs.android.sqldelight.driver)
+        }
+        iosMain.dependencies {
+            implementation(libs.ios.sqldelight.driver)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
+        }
+    }
+}
+
+sqldelight {
+    databases {
+        create("NoteDatabase") {
+            packageName = "com.vince.noteappkmm.database"
         }
     }
 }

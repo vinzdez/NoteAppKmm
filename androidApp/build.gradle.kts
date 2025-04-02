@@ -2,6 +2,8 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.kapt)
+    alias(libs.plugins.daggerHilt)
 }
 
 android {
@@ -28,6 +30,7 @@ android {
         }
     }
     compileOptions {
+        isCoreLibraryDesugaringEnabled = true
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
@@ -42,5 +45,12 @@ dependencies {
     implementation(libs.compose.ui.tooling.preview)
     implementation(libs.compose.material3)
     implementation(libs.androidx.activity.compose)
+    coreLibraryDesugaring(libs.tools.desugar)
+    implementation(libs.kotlinx.datetime)
+    implementation(libs.android.dagger.hilt)
+    kapt(libs.android.dagger.hilt.compiler)
+    kapt(libs.androidx.hilt.compiler)
+    implementation(libs.androidx.hilt.navigation)
+
     debugImplementation(libs.compose.ui.tooling)
 }
